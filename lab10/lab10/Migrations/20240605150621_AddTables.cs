@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace lab10.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedPatientsTable : Migration
+    public partial class AddTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,7 +49,7 @@ namespace lab10.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    BirthDay = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +60,7 @@ namespace lab10.Migrations
                 name: "Prescriptions",
                 columns: table => new
                 {
-                    IdDescription = table.Column<int>(type: "int", nullable: false)
+                    IdPrescription = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -69,7 +69,7 @@ namespace lab10.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prescriptions", x => x.IdDescription);
+                    table.PrimaryKey("PK_Prescriptions", x => x.IdPrescription);
                     table.ForeignKey(
                         name: "FK_Prescriptions_Doctors_IdDoctor",
                         column: x => x.IdDoctor,
@@ -106,7 +106,7 @@ namespace lab10.Migrations
                         name: "FK_PrescriptionMedicaments_Prescriptions_IdPrescription",
                         column: x => x.IdPrescription,
                         principalTable: "Prescriptions",
-                        principalColumn: "IdDescription",
+                        principalColumn: "IdPrescription",
                         onDelete: ReferentialAction.Cascade);
                 });
 

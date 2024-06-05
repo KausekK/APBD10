@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace lab10.Models;
 
+[PrimaryKey(nameof(IdMedicament),nameof(IdPrescription))]
 public class PrescriptionMedicament
 {
     public int IdMedicament { get; set; }

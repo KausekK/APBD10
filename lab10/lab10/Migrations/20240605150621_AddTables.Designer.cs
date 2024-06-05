@@ -12,8 +12,8 @@ using lab10.Context;
 namespace lab10.Migrations
 {
     [DbContext(typeof(ApbdContext))]
-    [Migration("20240602200115_AddedMedicamentTable")]
-    partial class AddedMedicamentTable
+    [Migration("20240605150621_AddTables")]
+    partial class AddTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,7 @@ namespace lab10.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPatient"));
 
-                    b.Property<DateTime>("BirthDay")
+                    b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
@@ -109,11 +109,11 @@ namespace lab10.Migrations
 
             modelBuilder.Entity("lab10.Models.Prescription", b =>
                 {
-                    b.Property<int>("IdDescription")
+                    b.Property<int>("IdPrescription")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDescription"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPrescription"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -127,7 +127,7 @@ namespace lab10.Migrations
                     b.Property<int>("IdPatient")
                         .HasColumnType("int");
 
-                    b.HasKey("IdDescription");
+                    b.HasKey("IdPrescription");
 
                     b.HasIndex("IdDoctor");
 
