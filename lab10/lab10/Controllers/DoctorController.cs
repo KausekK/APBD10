@@ -11,12 +11,10 @@ namespace lab10.Controllers;
 [Route("api/[controller]")]
 public class DoctorController : ControllerBase
 {
-    private readonly ApbdContext _apbdContext;
     private readonly Service _service;
 
-    public DoctorController(ApbdContext apbdContext, Service service)
+    public DoctorController( Service service)
     {
-        _apbdContext = apbdContext;
         _service = service;
     }
     
