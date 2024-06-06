@@ -30,6 +30,19 @@ public class DoctorController : ControllerBase
 
         return Ok(result);
     }
+    [HttpGet("{patientId}")]
+    public async Task<IActionResult> GetPatientPrescriptions(int patientId)
+    {
+        try
+        {
+            var result = await _service.GetPatientPrescriptions(patientId);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
     
 }
 

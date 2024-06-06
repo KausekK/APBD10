@@ -2,8 +2,7 @@
 using lab10.DTOs;
 using lab10.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
+using lab10.Controllers;
 
 namespace lab10.Services;
 
@@ -81,5 +80,53 @@ public class Service
         return "Dodano receptę";
     }
 
-  
+    public async Task<PatientPrescriptionDTO> GetPatientPrescriptions(int id)
+    {
+        
+        var patientPrescription = await _context.Patients
+            .Where(p => p.IdPatient == id)
+            .Select(p => new PatientPrescriptionDTO
+            {
+                PatientDto = new PatientDTO
+                {
+                    IdPatient = p.IdPatient,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    Birthdate = p.Birthdate
+                },
+                PrescriptionForPatientDtos = p.Prescriptions
+                    .OrderBy(d => d.DueDate)
+                    .Select(pr => new PrescriptionForPatientDTO
+                    {
+                        IdPrescription = pr.IdPrescription,
+                        Date = pr.Date,
+                        DueDate = pr.DueDate,
+                        Medicaments = pr.PrescrptionMedicaments
+                            .Select(pm => new PrescriptionMedicamentDTO
+                            {
+                                IdMedicament = pm.IdMedicament,
+                                Name = pm.Medicament.Name,
+                                Dose = pm.Dose,
+                                Description = pm.Details
+                            }).ToList()
+                    }).ToList(),
+                DoctorDto = p.Prescriptions
+                    .Select(d => new DoctorDTO
+                    {
+                        IdDoctor = d.Doctor.IdDoctor,
+                        FirstName = d.Doctor.FirstName,
+                        LastName = d.Doctor.LastName,
+                        Email = d.Doctor.Email
+                    })
+                    .FirstOrDefault()
+            })
+            .FirstOrDefaultAsync();
+
+        if (patientPrescription == null)
+        {
+            throw new Exception($"Nie znaleziono pacjenta o Id {id}.");
+        }
+        return patientPrescription;
+    }
+
 }
